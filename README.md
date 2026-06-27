@@ -10,7 +10,7 @@ users frictionless.
 
 ---
 
-## The core idea — Continuous Trust Quotient (CTQ)
+## The core idea: Continuous Trust Quotient (CTQ)
 
 Instead of a one-time login check, every session carries a live **CTQ (0–100) = P(identity is
 genuine) × 100**, recomputed continuously from on-device and contextual signals.
