@@ -1,11 +1,11 @@
-# PRAHARI — Continuous Identity-Trust Framework
+# PRAHARI: Continuous Identity-Trust Framework
 
 **P**rivacy-preserving, **R**isk-**A**daptive **H**ierarchical **A**uthentication & **R**eal-time **I**dentity-trust
 (प्रहरी — *sentinel*) · Bank of Baroda Hackathon 2026 · *Identity Trust, Protection & Safety*
 
 A privacy-first, risk-based identity-trust framework that **continuously** validates customer
 and enterprise identities across digital channels, and triggers verification **only when risk
-is elevated** — cutting account takeover, KYC fraud and insider misuse while keeping genuine
+is elevated** cutting account takeover, KYC fraud and insider misuse while keeping genuine
 users frictionless.
 
 ---
@@ -19,12 +19,12 @@ genuine) × 100**, recomputed continuously from on-device and contextual signals
 CTQ = min( ML P(genuine) × 100 ,  deterministic policy ceilings ) × trust-decay
 ```
 
-* **ML score** — a LightGBM model trained on labelled session data, with **monotonic risk
+* **ML score**  a LightGBM model trained on labelled session data, with **monotonic risk
   constraints** (every risk feature can only lower trust; device age can only raise it).
-* **Policy ceilings** — hard security rules (SIM-swap, impossible travel, known-bad network,
+* **Policy ceilings** hard security rules (SIM-swap, impossible travel, known-bad network,
   repeated recovery) cap trust regardless of the ML score. Real fraud systems blend ML + rules.
-* **Trust decay** — trust erodes with inactivity and must be re-earned (continuous, not point-in-time).
-* **SHAP reason codes** — every decision is explained feature-by-feature for DPDP / RBI audit.
+* **Trust decay** trust erodes with inactivity and must be re-earned (continuous, not point-in-time).
+* **SHAP reason codes** every decision is explained feature-by-feature for DPDP / RBI audit.
 * **Identity Trust Graph** — a graph over identities ↔ devices ↔ payees flags synthetic-identity
   rings and mule clusters; a compromised session is dynamically pulled into any detected ring.
 
@@ -112,30 +112,6 @@ frontend/
 
 ---
 
-## Deploy (get a public URL for the demo)
-
-This is a **stateful Python server** (live SQLite audit trail + in-process ML model),
-so it belongs on a persistent host — **not** Vercel/Netlify serverless.
-
-### Render (recommended, free, no card)
-New → **Web Service** → connect this repo:
-
-| Field | Value |
-|---|---|
-| Language | Python 3 |
-| Root Directory | `backend` |
-| Build Command | `pip install -r ../requirements.txt` |
-| Start Command | `uvicorn app:app --host 0.0.0.0 --port $PORT` |
-| Instance | Free |
-
-…or just pick **Blueprint** and point it at this repo (`render.yaml` auto-configures it).
-Note: the free tier sleeps after 15 min idle (~1 min cold start) and the SQLite trail
-resets on restart — fine for a demo; hit the URL once before presenting.
-
-### Any container host (Render-Docker / Railway / Fly.io / Koyeb)
-A `Dockerfile` is included. Point the platform at the repo and it builds + runs on `$PORT`.
-
 ### Not Vercel
 Vercel runs Python as serverless functions: read-only filesystem (SQLite writes vanish),
-500 MB bundle cap (LightGBM + SHAP is tight), and it doesn't serve a persistent process.
-Use Render/Railway instead.
+500 
