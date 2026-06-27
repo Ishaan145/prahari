@@ -120,7 +120,6 @@ def train():
     joblib.dump(model, HERE / "model.pkl")
     (HERE / "features.json").write_text(json.dumps(
         {"features": FEATURES, "labels": FEATURE_LABELS}, indent=2))
-    X.sample(200, random_state=1).to_parquet(HERE / "background.parquet")
 
     print(f"trained LightGBM  ROC-AUC={auc:.4f}  PR-AUC={ap:.4f}  n={len(df)}")
     return auc, ap

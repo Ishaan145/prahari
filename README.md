@@ -109,3 +109,33 @@ frontend/
 
 > Prototype note: data here is synthetic and the model is trained at startup for demonstration.
 > Production would train on consented, governed historical session data.
+
+---
+
+## Deploy (get a public URL for the demo)
+
+This is a **stateful Python server** (live SQLite audit trail + in-process ML model),
+so it belongs on a persistent host — **not** Vercel/Netlify serverless.
+
+### Render (recommended, free, no card)
+New → **Web Service** → connect this repo:
+
+| Field | Value |
+|---|---|
+| Language | Python 3 |
+| Root Directory | `backend` |
+| Build Command | `pip install -r ../requirements.txt` |
+| Start Command | `uvicorn app:app --host 0.0.0.0 --port $PORT` |
+| Instance | Free |
+
+…or just pick **Blueprint** and point it at this repo (`render.yaml` auto-configures it).
+Note: the free tier sleeps after 15 min idle (~1 min cold start) and the SQLite trail
+resets on restart — fine for a demo; hit the URL once before presenting.
+
+### Any container host (Render-Docker / Railway / Fly.io / Koyeb)
+A `Dockerfile` is included. Point the platform at the repo and it builds + runs on `$PORT`.
+
+### Not Vercel
+Vercel runs Python as serverless functions: read-only filesystem (SQLite writes vanish),
+500 MB bundle cap (LightGBM + SHAP is tight), and it doesn't serve a persistent process.
+Use Render/Railway instead.

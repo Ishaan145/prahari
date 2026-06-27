@@ -19,7 +19,6 @@ FEATURES = _meta["features"]
 LABELS = _meta["labels"]
 
 _model = joblib.load(HERE / "model.pkl")
-_bg = pd.read_parquet(HERE / "background.parquet")[FEATURES]
 _explainer = shap.TreeExplainer(_model)
 
 # Per-action trust thresholds (sensitivity-graded). Higher = more trust required.
